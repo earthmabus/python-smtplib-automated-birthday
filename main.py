@@ -1,10 +1,14 @@
 import email_account
 from birthday_list import BirthdayList
 import random
+import datetime as dt
 
 BIRTHDAY_LETTERS = [ "./inputs/bday_letter1.txt" , "./inputs/bday_letter2.txt", "./inputs/bday_letter3.txt" ]
 EMAIL_ADDRESS = "earthmabus@gmail.com"
 EMAIL_PASSWORD_FILE = "./password.txt"
+CURRENT_DATE_YEAR = dt.datetime.now().year
+CURRENT_DATE_MONTH = dt.datetime.now().month
+CURRENT_DATE_DAY = dt.datetime.now().day
 
 def load_password():
     '''loads the password for the email account from PASSWORD_FILE'''
@@ -30,8 +34,9 @@ bday_list = BirthdayList()
 bday_list.load()
 
 # get the list of birthdays for a specified day
-birthday_people = bday_list.get_birthdays_for_date(9, 27)
-print(f"There are {len(birthday_people)} birthdays on this date")
+print(f"Today is {CURRENT_DATE_MONTH}/{CURRENT_DATE_DAY}/{CURRENT_DATE_YEAR}")
+birthday_people = bday_list.get_birthdays_for_date(CURRENT_DATE_MONTH, CURRENT_DATE_DAY)
+print(f"There are {len(birthday_people)} birthdays for month={CURRENT_DATE_MONTH}, day={CURRENT_DATE_DAY}")
 
 # for each birthday person, send a random birthday email
 for p in birthday_people:
