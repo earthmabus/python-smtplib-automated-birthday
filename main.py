@@ -2,20 +2,14 @@ import email_account
 from birthday_list import BirthdayList
 import random
 import datetime as dt
+import os
 
 BIRTHDAY_LETTERS = [ "./inputs/bday_letter1.txt" , "./inputs/bday_letter2.txt", "./inputs/bday_letter3.txt" ]
-EMAIL_ADDRESS = "earthmabus@gmail.com"
-EMAIL_PASSWORD_FILE = "./password.txt"
+EMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS")
+EMAIL_PASSWORD = os.environ.get("GMAIL_PASSWORD")
 CURRENT_DATE_YEAR = dt.datetime.now().year
 CURRENT_DATE_MONTH = dt.datetime.now().month
 CURRENT_DATE_DAY = dt.datetime.now().day
-
-def load_password():
-    '''loads the password for the email account from PASSWORD_FILE'''
-    retval = ""
-    with open(EMAIL_PASSWORD_FILE, "r") as file_password:
-        retval = file_password.readline().strip()
-    return retval
 
 def craft_birthday_letter(name):
     '''creates a list of string representing the birthday message'''
@@ -50,7 +44,6 @@ for p in birthday_people:
         bday_letter = bday_letter + l
 
     # email the letter out
-    password = load_password()
-    account = email_account.EmailAccount(EMAIL_ADDRESS, password)
+    account = email_account.EmailAccount(EMAIL_ADDRESS, EMAIL_PASSWORD)
     account.send_email(bday_email, f"Happy birthday, {bday_name}!", bday_letter)
     print(f"Successfully sent birthday email to {bday_name}!")
